@@ -1,11 +1,6 @@
 import React from "react";
-import Routes from './components/Router'
+import Routes from './Router'
 
 export default function Root(props) {
-  return (
-      <>
-      <section>HHH</section>
-      <Routes />
-      </>
-    );
+  return <Routes />
 }
