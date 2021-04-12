@@ -1,5 +1,5 @@
 import React from "react";
-import Routes from './components/Router'
+import Routes from './Router'
 
 const hhh = [{
   "type": "hotel-offers",
