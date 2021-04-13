@@ -1,29 +1,37 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { StyledCounter } from './Conter.style'
 
-const Counter = React.forwardRef(({ label, id, name, min = 1, value, step = 1, onChange, ...rest}, ref) => {
- const [internalValue, setInternalValue] = useState(value)
+const Counter = React.forwardRef(({ label, id, min = 1, value, step = 1, onChange, ...rest}, ref) => {
+  const [internalValue, setInternalValue] = useState(value)
+  // let internalValue = value
+  let ccc
+  const inCount = useRef(null);
   const handleDecrement = (event) => {
     event.preventDefault()
     const inputNumber = event.target.nextElementSibling
     inputNumber.stepDown()
-    setInternalValue(inputNumber.value)
+    handleCountChange(inputNumber.value)
   }
-  
+
   const handleIncrement = (event) => {
     event.preventDefault()
     const inputNumber = event.target.previousElementSibling
     inputNumber.stepUp()
     console.log('01', inputNumber.value);
-    setInternalValue(inputNumber.value)
+    const { valueAsNumber } = inCount.current;
+    // // setInternalValue(inputNumber.value, event)
+    // value =
+    ccc = valueAsNumber
+    // console.log(internalValue);
   }
 
-  const handleChange = internalHandler => (e) => {
-    console.log(e);
-    if (internalHandler === undefined) {
+  const handleCountChange = internalIcrement => (e) => {
+    console.log('ccc', e);
+    setInternalValue(ccc)
+    if (internalIcrement === undefined) {
       return
     }
-    return internalHandler(e)
+    return internalIcrement(e)
   }
 
   return (
@@ -41,7 +49,7 @@ const Counter = React.forwardRef(({ label, id, name, min = 1, value, step = 1, o
         name={id}
         step={step}
         value={internalValue}
-        onChange={onChange}
+        onChange={(e) => handleCountChange(e)}
         {...rest}
         ref={ref}
       />

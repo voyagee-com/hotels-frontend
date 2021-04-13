@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react'
+import { useHistory } from "react-router-dom";
 import { Button, DateTime, Input } from '@voyage/artigas-ds'
 import Counter from '../Counter'
 import { SearchForm } from './Search.style'
@@ -7,10 +8,11 @@ let initialSearchData = {
   cityCode: "",
   checkInDate: "",
   checkOutDate: "",
-  adults: 5,
+  adults: 2,
 };
 
 const Search = () => {
+  const history = useHistory();
   const inputEl = useRef(null);
   const [searchData, setSeachData] = useState(initialSearchData);
   const [minData, setMinData] = useState();
@@ -36,8 +38,6 @@ const Search = () => {
     };
 
     setSeachData(internalObject);
-
-    console.log("cc", searchData);
   };
 
   const handleChange = (event) => {
@@ -48,18 +48,34 @@ const Search = () => {
       const { valueAsDate } = inputEl.current;
       minRetunDate(valueAsDate);
     }
+
     updateSearchData(name, value);
+  }
+
+  const handleClick = (event) => {
+    event.preventDefault();
+    const {
+      cityCode,
+      checkInDate,
+      checkOutDate,
+      adults
+    } = searchData;
+
+    console.log(searchData);
+    history.push(
+      `/offers/${cityCode}/${checkInDate}/${checkOutDate}/${adults}`
+    );
   }
 
   return (
     <SearchForm className="container">
-      <Input 
+      <Input
         label="City"
         id="cityCode"
         placeholder="Choose a city"
         onChange={(e) => handleChange(e)}
       />
-      <DateTime 
+      <DateTime
         label="Check In"
         id="checkInDate"
         placeholder="Choose CheckIn date"
@@ -68,7 +84,7 @@ const Search = () => {
         min={tomorrow}
         onChange={(e) => handleChange(e)}
       />
-      <DateTime 
+      <DateTime
         label="Check Out"
         id="checkOutDate"
         placeholder="Choose Check Out date"
@@ -76,13 +92,14 @@ const Search = () => {
         min={minData}
         onChange={(e) => handleChange(e)}
       />
-      <Counter 
+      <Counter
         label="Passangers"
         id="adults"
         value={searchData.adults}
+
         onChange={(e) => handleChange(e)}
       />
-      <Button>Search</Button>
+      <Button onClick={(e) => handleClick(e)}>Search</Button>
     </SearchForm>
   )
 }
