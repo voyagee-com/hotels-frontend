@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Button } from '@voyage/artigas-ds'
+import Loader from "../../Components/Loader"
 import Rating from '../../components/Rating'
 
 import { OffersContainer, OfferHotel, Filters, Price, HotelInfo } from './Offers.style'
@@ -14,7 +15,6 @@ const toCurrency = (number) => {
 
 const Offers = () => {
   let { destino, ida, volta, adultos } = useParams();
-  // const { hotelhtOffer } = useContext(HotelContext);
 
   const [ loader, setLoader ] = useState('idle')
   const [ hotelOffer, setHotelOffer] = useState([]);
@@ -25,7 +25,7 @@ const Offers = () => {
 
     const difference = date1.getTime() - date2.getTime();
     const days = Math.ceil(difference / (1000 * 3600 * 24));
-    console.log(days);
+
     return days
   }
 
@@ -33,18 +33,16 @@ const Offers = () => {
   useEffect(() => {
 
     const getHotelsUrl = `https://voyageecom.herokuapp.com/hotels?cityCode=${destino}&adults=${adultos}&roomQuantity=1&checkInDate=${ida}&checkOutDate=${volta}`
-
+    setLoader('loading')
     axios
       .get(getHotelsUrl)
       .then((res) => {
         window.localStorage.setItem('hotelz', JSON.stringify(res.data))
-        console.log(res.data);
         setHotelOffer(res.data);
 
       })
       .finally(() => {
-        console.log("Findou")
-        // setLoader('idle')
+        setLoader('idle')
       });
 
   }, [])
@@ -59,6 +57,12 @@ const Offers = () => {
       })
     );
   }
+
+  if (loader === 'loading') return (
+    <OffersContainer className="container">
+      <Loader />
+    </OffersContainer>
+  )
 
   return (
     <OffersContainer className="container">

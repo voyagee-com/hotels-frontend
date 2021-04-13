@@ -17,16 +17,15 @@ const Counter = React.forwardRef(({ label, id, min = 1, value, step = 1, onChang
     event.preventDefault()
     const inputNumber = event.target.previousElementSibling
     inputNumber.stepUp()
-    console.log('01', inputNumber.value);
+
     const { valueAsNumber } = inCount.current;
-    // // setInternalValue(inputNumber.value, event)
-    // value =
+
     ccc = valueAsNumber
-    // console.log(internalValue);
+
   }
 
   const handleCountChange = internalIcrement => (e) => {
-    console.log('ccc', e);
+
     setInternalValue(ccc)
     if (internalIcrement === undefined) {
       return

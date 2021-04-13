@@ -31,7 +31,7 @@ const Search = () => {
   };
 
   const updateSearchData = (name, value) => {
-    console.log("updateSearchData", name, value);
+
     let internalObject = {
       ...searchData,
       [name]: value,
@@ -42,7 +42,6 @@ const Search = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    console.log(name, value);
 
     if (name === "checkInDate") {
       const { valueAsDate } = inputEl.current;
@@ -61,7 +60,6 @@ const Search = () => {
       adults
     } = searchData;
 
-    console.log(searchData);
     history.push(
       `/offers/${cityCode}/${checkInDate}/${checkOutDate}/${adults}`
     );
